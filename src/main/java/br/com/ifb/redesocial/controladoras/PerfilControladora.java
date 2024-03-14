@@ -36,7 +36,12 @@ public class PerfilControladora {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody Map<String, String> request) {
-        return ResponseEntity.ok().body(perfilServico.authenticate(request));
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody Map<String, String> request) {
+        return ResponseEntity.ok().body(perfilServico.login(request));
+    }
+
+    @GetMapping(value = "/perfil")
+    public ResponseEntity<Map<String, String>> buscarPerfilLogado() {
+        return ResponseEntity.ok().body(perfilServico.buscarPerfilLogado());
     }
 }

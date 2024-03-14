@@ -9,6 +9,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -81,7 +82,7 @@ public class PerfilServico {
 
     }
 
-    public AuthenticationResponse authenticate(Map<String, String> request) {
+    public AuthenticationResponse login(Map<String, String> request) {
 
         String username = request.get("email");
         String password = request.get("senha");
@@ -92,7 +93,6 @@ public class PerfilServico {
         ));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         var user = perfilRepositorio.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Perfil não encontrado com o email: " + username));
@@ -100,6 +100,24 @@ public class PerfilServico {
         var jwtToken = jwtServico.generateToken(user);
 
         return new AuthenticationResponse.AuthenticationResponseBuilder().setToken(jwtToken).build();
+    }
+
+    public Map<String, String> buscarPerfilLogado() {
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Perfil perfil = perfilRepositorio.findByEmail(username)
+                .orElseThrow(() -> new EntityNotFoundException("Perfil não encontrado com o email: " + username));
+
+
+        Map<String, String> perfilEncontrado = new HashMap<>();
+        perfilEncontrado.put("id", String.valueOf(perfil.getId()));
+        perfilEncontrado.put("nome", perfil.getNome());
+        perfilEncontrado.put("email", perfil.getEmail());
+
+        return perfilEncontrado;
+
+
     }
 
 }
