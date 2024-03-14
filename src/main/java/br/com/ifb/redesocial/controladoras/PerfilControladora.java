@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin(origins = {"http://localhost:8082"})
 @RestController
 public class PerfilControladora {
 
@@ -26,7 +27,7 @@ public class PerfilControladora {
     }
 
     @GetMapping(value = "/perfis")
-    public ResponseEntity<List<Map<String, String>>> buscarPorId() {
+    public ResponseEntity<List<Map<String, String>>> buscarTodos() {
         return ResponseEntity.ok().body(perfilServico.buscarTodos());
     }
 
