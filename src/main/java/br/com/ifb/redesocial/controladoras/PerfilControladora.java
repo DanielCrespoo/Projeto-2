@@ -1,7 +1,8 @@
-package br.com.ifb.redesocial.controladora;
+package br.com.ifb.redesocial.controladoras;
 
-import br.com.ifb.redesocial.dto.CriarPerfilDTO;
-import br.com.ifb.redesocial.servico.PerfilServico;
+import br.com.ifb.redesocial.controladoras.auth.AuthenticationResponse;
+import br.com.ifb.redesocial.dtos.CriarPerfilDTO;
+import br.com.ifb.redesocial.servicos.PerfilServico;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,5 +33,10 @@ public class PerfilControladora {
     @GetMapping(value = "/perfis/{id}")
     public ResponseEntity<Map<String, String>> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok().body(perfilServico.buscarPorId(id));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody Map<String, String> request) {
+        return ResponseEntity.ok().body(perfilServico.authenticate(request));
     }
 }

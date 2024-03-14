@@ -1,22 +1,14 @@
-package br.com.ifb.redesocial.entidade;
+package br.com.ifb.redesocial.dtos;
 
-import jakarta.persistence.*;
+public class CriarPerfilDTO {
 
-@Entity
-@Table(name = "perfis")
-public class Perfil {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     private String nome;
     private Long telefone;
     private String email;
     private String empresa;
     private String senha;
 
-    public Perfil(Long id, String nome, Long telefone, String email, String empresa, String senha) {
-        this.id = id;
+    public CriarPerfilDTO(String nome, Long telefone, String email, String empresa, String senha) {
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
@@ -24,16 +16,7 @@ public class Perfil {
         this.senha = senha;
     }
 
-    public Perfil() {
-
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public CriarPerfilDTO() {
     }
 
     public String getNome() {
